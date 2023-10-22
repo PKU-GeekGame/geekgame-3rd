@@ -1,0 +1,7 @@
+<iframe src="/admin/"></iframe>
+<script>
+document.title = 'running';
+setTimeout(()=>{
+    document.title = 'got: ' + document.querySelector('iframe').contentDocument.cookie;
+}, 500);
+</script>

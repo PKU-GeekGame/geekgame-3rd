@@ -1,0 +1,4 @@
+/root/usr/lib/hard_flag
+/root/usr/lib/*.so.*
+/root/bin/lldb
+/root/bin/lldb-server

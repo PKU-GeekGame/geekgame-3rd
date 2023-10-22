@@ -1,0 +1,10 @@
+<script>
+async function run() {
+    await navigator.serviceWorker.register('/flag2_b/sw.js', {
+        scope: '/',
+    });
+    document.title = 'done';
+}
+run();
+document.title = 'running';
+</script>

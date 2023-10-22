@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset=utf-8>
+    <title>小北问答</title>
+    <link rel="stylesheet" href="/static/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <br>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-info">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="jumbotron">
+            <h1>小北问答</h1>
+            <br>
+            <p>开始之前请输入你的 Token：</p>
+            <form action="?" method="post">
+                <div class="input-group input-group">
+                    <input type="text" class="form-control" name="token" placeholder="Token">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="submit">开始</button>
+                    </span>
+                </div>
+            </form>
+        </div>
+        
+    </div>
+</body>
+</html>

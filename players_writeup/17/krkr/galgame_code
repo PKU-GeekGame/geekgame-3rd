@@ -1,0 +1,207 @@
+wutcwf.dll
+@loadplugin module=extrans.dll
+@loadplugin module=extNagano.dll
+
+@if exp="global.useconfigMappfont==true"
+@mappfont storage=&global.configMappfont
+@endif
+
+@macro name=vend
+@if exp="tf.KAGeXpress_voice=1"
+@eval exp="tf.KAGeXpress_voice=0"
+@endhact
+@endif
+@endmacro
+
+@macro name=p
+@vend
+@oporig
+@endmacro
+
+@call storage=snow.ks
+@call storage=rain.ks
+@call storage=staffroll.ks
+
+;语音回放用的Buffer
+@iscript
+tf.WSB=new WaveSoundBuffer(null);
+tf.strs1="histvoice(\"";
+tf.strs2="\")";
+tf.KAGeXpress_voice=0;
+function histvoice(storage)
+{
+	kag.se[0].stop();
+	if(!Storages.isExistentStorage(storage))
+	{
+		var test;
+		if(test = storage + ".wav", Storages.isExistentStorage(test))
+			storage = test;
+		else if(test = storage + ".ogg", Storages.isExistentStorage(test))
+			storage = test;
+		else if(test = storage + ".tcw", Storages.isExistentStorage(test))
+			storage = test;
+		else if(test = storage + ".mp3", Storages.isExistentStorage(test))
+			storage = test;
+		else
+			throw new Exception("语音 " + storage + " 未找到");
+	}
+	tf.WSB.open(storage);
+	tf.WSB.play();
+}
+@endscript
+
+@history enabled=false
+@bg storage="island-sum016b"
+
+=====================================
+
+听说鱼的记忆和人一样，都只有七秒。[l][r]
+真的是这样的吗？[l][r]
+[r]
+为了验证这一点，接下来请在脑海中想一个 Flag，然后输入两遍。[l][r]
+此程序会检查两次输入是不是一样的。[l][r]
+[r]
+[link storage="round1.ks" clickse="SE_306"]> 开始[endlink][r]
+[r]
+（出题人打开游戏玩了一半就不想玩了，你可以通过顶部的菜单读取他的存档）
+[r][r]
+
+===============================
+
+p="f.text = 'flag{'"
+@eval exp="f.hash = 1337"
+
+*round_1|输入第一遍
+
+首先输入第一遍。[p]
+
+*sel_loop|第一次输入
+
+@jump storage="round2.ks" cond="f.text.charAt(f.text.length-1)=='}'"
+
+当前文本：[emb exp="f.text"][r]
+
+[link target=*sel_a clickse="SE_306"]> 输入 A[endlink][r]
+[link target=*sel_e clickse="SE_306"]> 输入 E[endlink][r]
+[link target=*sel_i clickse="SE_306"]> 输入 I[endlink][r]
+[link target=*sel_o clickse="SE_306"]> 输入 O[endlink][r]
+[link target=*sel_u clickse="SE_306"]> 输入 U[endlink][r]
+[link target=*sel_fin clickse="SE_306"]> 输入 }[endlink][r]
+[s]
+
+*sel_a
+@eval exp="f.text = f.text + 'A'"
+@eval exp="f.hash = f.hash * 13337 + 11"
+@jump target=*sel_end
+
+*sel_e
+@eval exp="f.text = f.text + 'E'"
+@eval exp="f.hash = f.hash * 13337 + 22"
+@jump target=*sel_end
+
+*sel_i
+@eval exp="f.text = f.text + 'I'"
+@eval exp="f.hash = f.hash * 13337 + 33"
+@jump target=*sel_end
+
+*sel_o
+@eval exp="f.text = f.text + 'O'"
+@eval exp="f.hash = f.hash * 13337 + 44"
+@jump target=*sel_end
+
+*sel_u
+@eval exp="f.text = f.text + 'U'"
+@eval exp="f.hash = f.hash * 13337 + 55"
+@jump target=*sel_end
+
+*sel_fin
+@eval exp="f.text = f.text + '}'"
+@eval exp="f.hash = f.hash * 13337 + 66"
+@jump target=*sel_end
+
+*sel_end
+@eval exp="f.hash = f.hash % 19260817"
+
+输入完成！[p]
+@jump target=*sel_loL
+
+===========================
+
+p="f.text = 'flag{'"
+@eval exp="f.prev_hash = f.hash"
+@eval exp="f.hash = 1337"
+
+*round_2|输入第二遍
+
+现在输入第二遍。[p]
+
+*sel_loop
+
+@jump storage="done.ks" cond="f.text.charAt(f.text.length-1)=='}'"
+
+当前文本：[emb exp="f.text"][r]
+
+[link target=*sel_a clickse="SE_306"]> 输入 A[endlink][r]
+[link target=*sel_e clickse="SE_306"]> 输入 E[endlink][r]
+[link target=*sel_i clickse="SE_306"]> 输入 I[endlink][r]
+[link target=*sel_o clickse="SE_306"]> 输入 O[endlink][r]
+[link target=*sel_u clickse="SE_306"]> 输入 U[endlink][r]
+[link target=*sel_fin clickse="SE_306"]> 输入 }[endlink][r]
+[s]
+
+*sel_a
+@eval exp="f.text = f.text + 'A'"
+@eval exp="f.hash = f.hash * 13337 + 11"
+@jump target=*sel_end
+
+*sel_e
+@eval exp="f.text = f.text + 'E'"
+@eval exp="f.hash = f.hash * 13337 + 22"
+@jump target=*sel_end
+
+*sel_i
+@eval exp="f.text = f.text + 'I'"
+@eval exp="f.hash = f.hash * 13337 + 33"
+@jump target=*sel_end
+
+*sel_o
+@eval exp="f.text = f.text + 'O'"
+@eval exp="f.hash = f.hash * 13337 + 44"
+@jump target=*sel_end
+
+*sel_u
+@eval exp="f.text = f.text + 'U'"
+@eval exp="f.hash = f.hash * 13337 + 55"
+@jump target=*sel_end
+
+*sel_fin
+@eval exp="f.text = f.text + '}'"
+@eval exp="f.hash = f.hash * 13337 + 66"
+@jump target=*sel_end
+
+*sel_end
+@eval exp="f.hash = f.hash % 19260817"
+
+输入完成！[p]
+@jump target=*sel_loop
+
+=======================
+
+@if exp="f.hash == f.prev_hash"
+
+@bg storage="66ccff"
+输入正确！大概。[l][r]
+感谢配合，Flag 1 是：[font color="0x66ccff" size=0]flag{did-you-unpack-the-xp3?}[resetfont]。[l][r]
+Flag 2 是出题人在存档里输入的内容。[l][r]
+
+@else
+
+[quake time=1000]
+输入错误！[l][r]
+看来你的记忆确实只有七秒。[l][r]
+
+@endif
+
+[r]
+--- 游戏结束 ---[p]
+@jump storage="first.�

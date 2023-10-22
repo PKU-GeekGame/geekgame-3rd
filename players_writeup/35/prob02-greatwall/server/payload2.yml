@@ -1,0 +1,16 @@
+port: 7890
+mode: Rule
+log-level: info
+external-controller: ":9090"
+hosts:
+  "ys.pku.edu.cn": "10.7.220.65"
+proxies:
+  - name: flag{test}
+    type: socks5
+    server: 127.0.0.1
+    port: 1926
+    skip-cert-verify: true
+rules:
+  - "DOMAIN-SUFFIX,mihoyo.com,REJECT"
+  - "GEOIP,CN,DIRECT"
+  - "MATCH,DIRECT"

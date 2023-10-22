@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>注册个人主页</title>
+    <style>
+        input, textarea {
+            width: 300px;
+        }
+        textarea {
+            height: 5em;
+        }
+    </style>
+</head>
+<body>
+    <h1>注册个人主页</h1>
+    <form action="?" method="POST">
+        <p>
+            <label>
+                网址：
+                <input name="name" value="~helen">
+            </label>
+        </p>
+        <p>
+            <label>
+                响应头：
+                <textarea name="header">{"Content-Type": "text/html"}</textarea>
+            </label>
+        </p>
+        <p>
+            <label>
+                正文：
+                <textarea name="body"><marquee>Hello World!</marquee></textarea>
+            </label>
+        </p>
+        <p>
+            <button type="submit">注册</button>
+        </p>
+    </form>
+</body>
+</html>

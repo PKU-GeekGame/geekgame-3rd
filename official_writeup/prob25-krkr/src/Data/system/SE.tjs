@@ -1,0 +1,295 @@
+// SE.tjs - 効果音管理
+// Copyright (C)2001-2006, W.Dee and contributors  改変?配布は自由です
+
+class SESoundBuffer extends WaveSoundBuffer
+{
+	// 効果音クラス ( WaveSoundBuffer を継承 )
+
+	var owner; // オーナー
+	var id; // 効果音バッファID
+	var inFading; // フェード中かどうか
+	var prevstatus = "unload"; // 直前のステータス
+	var currentStorage = ""; // 見かけの演奏中のストレージ
+	var currentVolume = 100; // 見かけのボリューム
+	var inFadeAndStop = false; // フェード終了時に停止するか
+    
+	function SESoundBuffer(owner, id)
+	{
+		// コンストラクタ
+		super.WaveSoundBuffer(owner);
+
+		this.owner = owner;
+		this.id = id;
+	}
+
+	function finalize()
+	{
+		// finalize()
+		super.finalize(...);
+	}
+
+	function play(elm, resetvolume = true)
+	{
+		// play オーバーライド
+		super.stop();
+		stopFade();
+		var storage = elm.storage;
+        var start = elm.start;
+        var found = true;
+		if(!Storages.isExistentStorage(storage))
+		{
+			var test;
+			if(test = storage + ".wav", Storages.isExistentStorage(test))
+				storage = test;
+			else if(test = storage + ".ogg", Storages.isExistentStorage(test))
+				storage = test;
+			else if(test = storage + ".tcw", Storages.isExistentStorage(test))
+				storage = test;
+			else if(test = storage + ".mp3", Storages.isExistentStorage(test))
+				storage = test;
+			else
+				found = false;
+		}
+		if(!found)
+			throw new Exception("音效 " + storage + " 无法找到");
+		var loop = elm.loop === void ? false : +elm.loop;
+		looping = loop;
+		if(loop)
+			currentStorage = storage;
+		else
+			currentStorage = "";
+		try
+		{
+            super.open(storage);
+            if(resetvolume) super.volume = currentVolume * 1000;
+            // 再生位置指定
+            if (start !== void &&
+                super.labels !== void &&
+                (start = super.labels[start]) !== void &&
+                (start = start.samplePosition) !== void) {
+                super.samplePosition = start;
+            }
+            super.play();
+		}
+		catch(e)
+		{
+			dm("无法播放音效 : " + e.message);
+		}
+	}
+
+	function stop()
+	{
+		// stop オーバーライド
+		currentStorage = "";
+		try
+		{
+			super.stop(...);
+		}
+		catch(e)
+		{
+			dm("无法停止音效 : " + e.message);
+		}
+		inFadeAndStop = false;
+	}
+
+	function stopFade()
+	{
+		// stopFade オーバーライド
+		try
+		{
+			super.stopFade();
+		}
+		catch(e)
+		{
+			dm("无法淡入淡出音效 : " + e.message);
+		}
+		inFadeAndStop = false;
+	}
+
+	function fade(elm)
+	{
+		// fade オーバーライド
+		inFading = true;
+		var time = elm.time === void ? 5000 : +elm.time;
+		var vol = +elm.volume * 1000;
+		currentVolume = +elm.volume;
+		try
+		{
+			super.fade(vol, time);
+		}
+		catch(e)
+		{
+			dm("无法淡入淡出音效 : " + e.message);
+		}
+	}
+
+	function fadeIn(elm)
+	{
+		// フェードインしながらの再生
+		super.volume = 0;
+		play(elm, false);
+		inFading = true;
+		var time = elm.time === void ? 5000 : +elm.time;
+		var vol = currentVolume * 1000;
+		try
+		{
+			super.fade(vol, time);
+		}
+		catch(e)
+		{
+			dm("无法淡入淡出音效 : " + e.message);
+		}
+	}
+
+	function fadeOut(elm)
+	{
+		// フェードアウト後停止
+		inFading = true;
+		inFadeAndStop = true;
+		var time = elm.time === void ? 5000 : +elm.time;
+		try
+		{
+			super.fade(0, time);
+		}
+		catch(e)
+		{
+			dm("无法淡入淡出音效 : " + e.message);
+		}
+	}
+
+	function onFadeCompleted()
+	{
+		// onFadeCompleted オーバーライド
+		inFading = false;
+		if(inFadeAndStop)
+		{
+			try
+			{
+				super.stop(); // 再生停止
+			}
+			catch(e)
+			{
+				dm("无法停止音效 : " + e.message);
+			}
+			inFadeAndStop = false;
+		}
+        super.onFadeCompleted(...);
+		owner.onSESoundBufferFadeCompleted(id); // フェード終了
+	}
+
+	function onStatusChanged()
+	{
+		// onStatusChanged オーバーライド
+		// ステータスが変更された
+		super.onStatusChanged(...);
+		var ps = prevstatus;
+		var cs = status;
+		prevstatus = cs;
+		if(ps == "play" && cs == "stop")
+		{
+			currentStorage = "";
+			owner.onSESoundBufferStop(id); // play => stop : 演奏が停止した
+		}
+	}
+
+	function canWaitStop()
+	{
+		// 終了を待てるか
+		return status == "play" && !looping;
+	}
+
+	property volume
+	{
+		setter(x)
+		{
+			currentVolume = x;
+			super.volume = x * 1000;
+		}
+		getter
+		{
+			return super.volume \ 1000;
+		}
+	}
+
+	property pan
+	{
+		setter(x)
+		{
+			super.pan = x * 1000;
+		}
+		getter
+		{
+			return super.pan \ 1000;
+		}
+	}
+
+	function setOptions(elm)
+	{
+		if(elm.volume !== void) volume = +elm.volume;
+		if(elm.gvolume !== void)
+		{
+			// 大域ボリューム
+			var sysvar = owner.scflags; // システム(コア)変数
+			if(sysvar.se === void) sysvar.se = [];
+			sysvar = sysvar.se;
+			if(sysvar[id] === void) sysvar[id] = %[];
+			sysvar = sysvar[id];
+			var v2 = +elm.gvolume;
+			v2 = int(v2 * 1000);
+			sysvar.globalVolume = v2;
+            if (sysvar.enable === void || sysvar.enable) {
+                volume2 = v2;
+            } else {
+                volume2 = 0;
+            }
+		}
+		if(elm.pan !== void)
+		{
+			pan = +elm.pan;
+		}
+	}
+
+	function store()
+	{
+		// 辞書配列に現在の状態を記録する
+		var dic = %[];
+		dic.currentStorage = currentStorage;
+		dic.volume = currentVolume;
+		dic.pan = pan;
+		return dic;
+	}
+
+	function restore(dic)
+	{
+		// 辞書配列から状態を読み出し、復帰する
+		currentVolume = dic.volume;
+		pan = dic.pan;
+		if(dic.currentStorage != "")
+			play(%[storage : dic.currentStorage, loop : true]);
+		else
+			stop();
+	}
+
+	function restoreSystemState(dic)
+	{
+		// システム変数 dic から情報を設定する
+		// 大域ボリュームの情報を得る
+		var sysvar = dic.se;
+		if(sysvar !== void)
+		{
+			sysvar = sysvar[id];
+			if(sysvar !== void)
+			{
+                if (sysvar.enable === void || sysvar.enable) {
+                    var v2 = sysvar.globalVolume;
+                    if(v2 !== void) {
+                        volume2 = +v2;
+                    }
+                } else {
+                    volume2 = 0;
+                }
+            }
+		}
+	}
+}
+

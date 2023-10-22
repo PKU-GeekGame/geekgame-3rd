@@ -1,0 +1,13 @@
+{
+  "name": "ui",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.mjs",
+  "author": "thezzisu",
+  "dependencies": {
+    "@fastify/http-proxy": "^9.2.1",
+    "@fastify/static": "^6.11.2",
+    "fastify": "^4.23.2",
+    "puppeteer-core": "^21.3.6"
+  }
+}

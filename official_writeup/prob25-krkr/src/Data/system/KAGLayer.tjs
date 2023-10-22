@@ -1,0 +1,342 @@
+// KAGLayer.tjs - KAG のレイヤの基本クラス
+// Copyright (C)2001-2006, W.Dee and contributors  改変?配布は自由です
+
+/*
+ レイヤ関連のクラス階層
+
+ Layer ( 吉里吉里ネイティヴクラス )
+  |
+  +-- KAGLayer ( このファイル )
+       |
+       +-- AnimationLayer ( AnimationLayer.tjs )
+       |    |
+       |    +-- ClickGlyphLayer ( AnimationLayer.tjs )
+       |    |
+       |    +-- GraphicLayer ( GraphicLayer.tjs )
+       |         |
+       |         +-- BaseLayer ( GraphicLayer.tjs )
+       |         |
+       |         +-- CharacterLayer ( GraphicLayer.tjs )
+       |
+       +-- MessageLayer ( MessageLayer.tjs )
+       |
+       +-- ButtonLayer ( ButtonLayer.tjs )
+       |    |
+       |    +-- LinkButtonLayer ( MessageLayer.tjs )
+       |    |
+       |    +-- LButtonLayer ( HistoryLayer.tjs )
+       |
+       +-- EditLayer ( EditLayer.tjs )
+       |    |
+       |    +-- LinkEditLayer ( MessageLayer.tjs )
+       |
+       +-- CheckBoxLayer ( CheckBoxLayer.tjs )
+            |
+            +-- LinkCheckBoxLayer ( MessageLayer.tjs )
+*/
+
+/*
+　ちょっとわかりづらい、トランジション終了時の動作について覚え書き
+
+　吉里吉里はトランジション終了時に、トランジション元(src=相手)がある場合は、
+子レイヤを含む(children=true)場合は相手とツリーごと自分自身のレイヤを交換し、
+子レイヤを含まない(children=false)場合は、子の絶対的なツリー上の位置はその
+ままにして相手と入れ替わる。
+
+　子レイヤを含まないトランジションを行えるのは背景レイヤのみ。
+
+トランジションを行うと、上記における「入れ替え」を行うが、吉里吉里本体の
+入れ替え、は name などの重要な情報も入れ替えてしまうので、
+GraphicLayer.exchangeInfo で内容を交換する。
+
+また、trans 属性で exchange=true が指定された場合は、両者のレイヤは入れ替わ
+るが、exchange=false (デフォルト) が指定された場合は、トランジション元(src)
+からトランジション先への情報のコピーを行わないとならない。
+
+srcなし の時はレイヤ単独でのトランジションが行われるのでこれらの考慮は
+必要ないが、終了時には子レイヤがすべて非表示になる。
+
+?メッセージレイヤ、前景レイヤが、srcなしでトランジション (children=true)
+　何もしなくてよいが、終了後それらの子レイヤは自動的に非表示になる。
+
+?メッセージレイヤ、前景レイヤが、srcありでトランジション (children=true)
+　重要な情報をトランジション元と交換、exchange=false の場合はさらに
+　トランジション元の情報をトランジション先にコピー。ただし、このコピーの際に
+　ウィンドウの可視?不可視の情報はコピーしない。
+
+?背景レイヤがsrcなしでトランジション(children=true)
+　何もしなくてよいが、終了時に子レイヤは非表示になる。
+
+?背景レイヤがsrcなしでトランジション(children=false)
+　本当に何もしない。
+
+?背景レイヤがsrcありでトランジション(children=true)
+　重要な情報をトランジション元と交換、しかも子レイヤに対してもこの
+　「重要な情報を相手と交換」の指示を出す。exchange=false の場合はさらに
+　トランジション元の情報をトランジション先にコピー。これも、子レイヤすべて
+　に対しても指示する。
+
+?背景レイヤがsrcありでトランジション(children=false)
+　重要な情報をトランジション元と交換。子レイヤに対しては
+　「重要な情報を相手と交換」の指示をださない。exchange=false の場合は
+　さらにトランジション元の情報をトランジション先にコピー。
+　これも子レイヤに対しては指示しない。
+
+*/
+
+class KAGLayer extends Layer
+{
+	// KAG で用いる背景/前景レイヤ、メッセージレイヤ、ボタンレイヤなどの基本クラス
+	var inTransition = false; // トランジション中か
+	var transExchange = false; // トランジション終了時に入れ替えを行うか
+	var transWithChildren = false; // トランジションは子レイヤも含めて行うか
+
+	var moveObject; // 現在進行中の自動移動用オブジェクト(進行していないときはvoid)
+
+	function KAGLayer(win, par)
+	{
+		super.Layer(win, par);
+	}
+
+	function finalize()
+	{
+		invalidate moveObject if moveObject !== void;
+		super.finalize(...);
+	}
+
+	function setOptions(elm)
+	{
+		// elm に従ってレイヤのオプションを設定
+		visible = +elm.visible if elm.visible !== void;
+		left = +elm.left if elm.left !== void;
+		top = +elm.top if elm.top !== void;
+		opacity = +elm.opacity if elm.opacity !== void;
+
+		if(elm.modal !== void)
+		{
+			// this would not work well
+			var modal = elm.modal;
+			if(modal) setMode(), focus(); else removeMode();
+		}
+
+		absolute = +elm.index if elm.index !== void;
+	}
+
+	function loadImages(storage, key)
+	{
+		// loadImages オーバーライド
+		key = adjustColorKey(key);
+		return super.loadImages(storage, key);
+	}
+
+	function adjustColorKey(key)
+	{
+		// 文字列で与えられたカラーキーの変換
+		if(key === void)
+			key = clNone;
+		else if(typeof key == "String")
+		{
+			if(key == "adapt")
+				key = clAdapt; // adaptive color key
+			else
+			{
+				if(key.length >= 7)
+					key = +key;
+				else
+					key = +key + 0x3000000; // 0x3000000 = パレットインデックスによる指定
+			}
+		}
+		return key;
+	}
+
+	function assignImages(src, copyvisiblestate = false)
+	{
+		// assignImages オーバーライド
+		// src の「目に見える」情報をこのレイヤにコピーする
+		// コピーされる内容は、
+		// ?透明度
+		// ?位置
+		// ?表示サイズ
+		// ?レイヤ内画像表示位置(imageLeft, imageTop)
+		//  ( 上記３つは copyvisiblestate = true のばあい )
+		// ?画像サイズ
+		// ?レイヤ画像、領域画像
+		super.assignImages(src);
+		if(copyvisiblestate)
+		{
+			var su = super;
+			su.visible = src.visible;
+			su.opacity = src.opacity;
+			su.absolute = src.absolute if !src.isPrimary && src.parent.absoluteOrderMode;
+			su.type = src.type;
+			su.setPos(src.left, src.top, src.width, src.height);
+			su.setImagePos(src.imageLeft, src.imageTop);
+		}
+	}
+
+	function assignVisibleState(src)
+	{
+		// src から上記 assignImages のうち、copyvisiblestate = true に
+		// したときだけにコピーされる情報をコピー
+		visible = src.visible;
+		opacity = src.opacity;
+		absolute = src.absolute if !src.isPrimary && src.parent.absoluteOrderMode;
+		type = src.type;
+		setPos(src.left, src.top, src.width, src.height);
+		setImagePos(src.imageLeft, src.imageTop);
+	}
+
+	function beginTransition(elm, src)
+	{
+		// beginTransition オーバーライド
+		// elm に従い、トランジションを開始する
+		// src にはトランジションの相手を指定
+//		stopTransition(); // 現在のトランジションは停止
+
+		if(elm.exchange !== void) transExchange = +elm.exchange; else transExchange = false;
+		var method = elm.method;
+		if(elm.time !== void)
+		{
+            if (window.drawspeed !== void) {
+                elm.time *= window.drawspeed;
+            }
+            elm.time = 1 if +elm.time == 0; // 時間に 0 は指定できないので
+		}
+		if(method === void)
+		{
+			method = 'universal'; // デフォルトでユニバーサル
+		}
+		else if(method == 'scroll')
+		{
+			// パラメータの変換
+			switch(elm.from)
+			{
+			case 'left': elm.from = sttLeft; break;
+			case 'top': elm.from = sttTop; break;
+			case 'right': elm.from = sttRight; break;
+			case 'bottom': elm.from = sttBottom; break;
+			}
+			switch(elm.stay)
+			{
+			case 'nostay': elm.stay = ststNoStay; break;
+			case 'stayback': elm.stay = ststStaySrc; break;
+			case 'stayfore': elm.stay = ststStayDest; break;
+			default: elm.stay = ststNoStay; break;
+			}
+		}
+		var withchildren = elm.children;
+		if(withchildren === void)
+			withchildren = true;
+		else
+			withchildren = +withchildren;
+		transWithChildren = withchildren;
+		inTransition = true;
+		window.transCount++; // 進行中のトランジションの数を増やす
+		super.beginTransition(method, withchildren, src, elm);
+	}
+
+	function onTransitionCompleted(dest, src)
+	{
+		super.onTransitionCompleted(...);
+		if(window != null)
+		{
+			inTransition = false;
+			window.transCount--; // 進行中のトランジションの数を減らす
+			atEndOfTransition(src, transWithChildren, transExchange);
+			window.onLayerTransitionCompleted(this, dest, src);
+		}
+	}
+
+	function atEndOfTransition(src, withchildren, exchange)
+	{
+		// 必要に応じて オーバーライドすること
+		// トランジションが終了したときに呼ばれる。
+		// レイヤ単独でトランジションが行われた場合は src は null になる。
+		// そうでない場合、exchange が true の時は、src と 自分の内容
+		// を取り替え、そうでなければ src に自分の内容
+		// をコピー。
+		// 子レイヤも含めてトランジションが行われた場合は withchildren が
+		// true になる。
+		// root は、トランジションの大本に対して呼ばれるときに true になる。
+	}
+
+	function beginMove(elm)
+	{
+		// elm に従い自動移動を開始する
+
+        // 速度補正
+        if (window.drawspeed !== void) {
+            elm.time *= window.drawspeed;
+        }
+
+        stopMove();
+
+		// path の分解
+		var array = [].split("(), ", elm.path, , true);
+		for(var i = array.count-1; i>=0; i--) array[i+3] = +array[i];
+		array[0] = left;
+		array[1] = top;
+		array[2] = opacity;
+
+		// 移動用オブジェクトの作成
+		if(elm.spline !== void && +elm.spline)
+		{
+			// スプライン補間
+			moveObject = new SplineMover(this, array, +elm.time,
+				elm.accel === void ? 0 : +elm.accel, moveFinalFunction);
+		}
+		else
+		{
+			// 直線補間
+			moveObject = new LinearMover(this, array, +elm.time,
+				elm.accel === void ? 0 : +elm.accel, moveFinalFunction);
+		}
+		window.moveCount++;
+		moveObject.startMove(+elm.delay);
+	}
+
+	function moveFinalFunction()
+	{
+		// 自動移動が終了するときに呼ばれる関数
+		window.moveCount--;
+		window.onLayerMoveStop();
+	}
+
+	function stopMove()
+	{
+		if(moveObject !== void) invalidate moveObject, moveObject = void;
+	}
+
+	function store()
+	{
+		// 辞書配列に現在の状態を保存する
+		var dic = %[];
+		dic.left = left;
+		dic.top = top;
+		dic.width = width;
+		dic.height = height;
+		dic.imageWidth = imageWidth;
+		dic.imageHeight = imageHeight;
+		dic.opacity = opacity;
+		dic.visible = visible;
+		dic.imageLeft = imageLeft;
+		dic.imageTop = imageTop;
+		dic.absolute = absolute;
+		dic.type = type;
+		return dic;
+	}
+
+	function restore(dic)
+	{
+		// 辞書配列 dic から情報を読み出し、このレイヤに設定する
+		setImageSize(dic.imageWidth, dic.imageHeight);
+		setPos(dic.left, dic.top, dic.width, dic.height);
+		setImagePos(dic.imageLeft, dic.imageTop);
+		opacity = dic.opacity;
+		visible = dic.visible;
+		absolute = dic.absolute if !isPrimary && dic.absolute !== void;
+		type = dic.type if !isPrimary && dic.type !== void;
+	}
+}
+
+

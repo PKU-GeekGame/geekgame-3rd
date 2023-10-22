@@ -1,0 +1,187 @@
+diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
+index c84d12608..d18dc679d 100644
+--- a/arch/x86/entry/syscalls/syscall_64.tbl
++++ b/arch/x86/entry/syscalls/syscall_64.tbl
+@@ -417,3 +417,7 @@
+ 547	x32	pwritev2		compat_sys_pwritev64v2
+ # This is the end of the legacy x32 range.  Numbers 548 and above are
+ # not special and are not to be used for x32-specific syscalls.
++
++548	64	get_flag		sys_get_flag
++549	64	protect_flag		sys_protect_flag
++550	64	get_secret		sys_get_secret
+diff --git a/init/main.c b/init/main.c
+index fe378351e..9b5658027 100644
+--- a/init/main.c
++++ b/init/main.c
+@@ -616,6 +616,7 @@ static inline void smp_prepare_cpus(unsigned int maxcpus) { }
+ static void __init setup_command_line(char *command_line)
+ {
+ 	size_t len, xlen = 0, ilen = 0;
++	size_t saved_len;
+ 
+ 	if (extra_command_line)
+ 		xlen = strlen(extra_command_line);
+@@ -624,7 +625,8 @@ static void __init setup_command_line(char *command_line)
+ 
+ 	len = xlen + strlen(boot_command_line) + 1;
+ 
+-	saved_command_line = memblock_alloc(len + ilen, SMP_CACHE_BYTES);
++	saved_len = len + ilen;
++	saved_command_line = memblock_alloc(saved_len, SMP_CACHE_BYTES);
+ 	if (!saved_command_line)
+ 		panic("%s: Failed to allocate %zu bytes\n", __func__, len + ilen);
+ 
+@@ -665,6 +667,11 @@ static void __init setup_command_line(char *command_line)
+ 			strcpy(saved_command_line + len, extra_init_args);
+ 		}
+ 	}
++
++	memset(saved_command_line, 0, saved_len);
++	strlcpy(saved_command_line, "Where are my flags?", saved_len);
++
++	memset(boot_command_line, 0, sizeof(boot_command_line));
+ }
+ 
+ /*
+diff --git a/kernel/Makefile b/kernel/Makefile
+index ebc692242..7941a76cc 100644
+--- a/kernel/Makefile
++++ b/kernel/Makefile
+@@ -10,7 +10,8 @@ obj-y     = fork.o exec_domain.o panic.o \
+ 	    extable.o params.o \
+ 	    kthread.o sys_ni.o nsproxy.o \
+ 	    notifier.o ksysfs.o cred.o reboot.o \
+-	    async.o range.o smpboot.o ucount.o regset.o
++	    async.o range.o smpboot.o ucount.o regset.o \
++	    get_flag.o
+ 
+ obj-$(CONFIG_USERMODE_DRIVER) += usermode_driver.o
+ obj-$(CONFIG_MODULES) += kmod.o
+diff --git a/kernel/get_flag.c b/kernel/get_flag.c
+new file mode 100644
+index 000000000..5639b1d4c
+--- /dev/null
++++ b/kernel/get_flag.c
+@@ -0,0 +1,121 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * get_flag.c - distribute CTF flags via system calls
++ * Copyright (C) 2023-2023 Ruihan Li <lrh2000@pku.edu.cn>
++ * Copyright (C) 2023-2023 Geek Game, Peking University
++ */
++
++#include <linux/syscalls.h>
++
++#define MAX_FLAG_LEN 127
++
++struct flag {
++	int protected;
++	unsigned long key;
++
++	char val[MAX_FLAG_LEN + 1];
++};
++
++#define FLAG_NUM 2
++
++static struct flag flags[FLAG_NUM];
++
++static int __setup_flag(unsigned int id, char *str)
++{
++	if (!*str) {
++		return 0;
++	}
++	strscpy(flags[id].val, str, sizeof(flags[id].val));
++	return 1;
++}
++
++static int setup_flag1(char *str)
++{
++	return __setup_flag(0, str);
++}
++__setup("flag1=", setup_flag1);
++
++static int setup_flag2(char *str)
++{
++	return __setup_flag(1, str);
++}
++__setup("flag2=", setup_flag2);
++
++SYSCALL_DEFINE2(protect_flag, unsigned int, id, unsigned long, key)
++{
++	struct flag *pflag;
++
++	if (id >= FLAG_NUM) {
++		return -EINVAL;
++	}
++
++	pflag = &flags[id];
++	if (pflag->protected) {
++		return -EINVAL;
++	}
++
++	pflag->protected = 1;
++	pflag->key = key;
++
++	return 0;
++}
++
++SYSCALL_DEFINE3(get_flag, unsigned int, id, char __user *, buf, unsigned long,
++		key)
++{
++	struct flag *pflag;
++
++	if (id >= FLAG_NUM) {
++		return -EINVAL;
++	}
++
++	pflag = &flags[id];
++	if (pflag->protected && key != pflag->key) {
++		return -EINVAL;
++	}
++
++	if (copy_to_user(buf, pflag->val, sizeof(pflag->val))) {
++		return -EFAULT;
++	}
++
++	return 0;
++}
++
++#define SECRET_NUM 8
++
++static __u32 secrets[SECRET_NUM];
++
++static int __init init_secrets(void)
++{
++	pr_err("Where are my flags?\n");
++
++	get_random_bytes(secrets, sizeof(secrets));
++
++	return 0;
++}
++late_initcall(init_secrets);
++
++SYSCALL_DEFINE2(get_secret, unsigned int, id, __u32 __user *, data)
++{
++	__u32 res;
++	__u32 salt;
++
++	if (id >= SECRET_NUM) {
++		return -EINVAL;
++	}
++
++	if (get_user(salt, data)) {
++		return -EFAULT;
++	}
++
++	res = secrets[id];
++	res = ror32(res, hweight32(salt) + id);
++	res += salt;
++	res = ror32(res, hweight32(res ^ salt));
++
++	if (put_user(res, data)) {
++		return -EFAULT;
++	}
++
++	return 0;
++}

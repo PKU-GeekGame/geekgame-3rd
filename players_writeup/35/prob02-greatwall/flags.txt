@@ -1,0 +1,3 @@
+flag{C1aShC0r3IsUNs3cuRE}
+flag{badPr0xyCaus3sBAD0utcoM3}
+flag{UnS3curEP0weRedBye1ectron}

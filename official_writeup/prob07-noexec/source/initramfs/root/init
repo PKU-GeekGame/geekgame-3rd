@@ -1,0 +1,45 @@
+#!/bin/busybox sh
+
+set -e
+
+/bin/busybox --install -s /bin
+
+mount -o noexec,nosuid -t devtmpfs dev /dev
+
+mkdir /proc
+mount -o noexec,nosuid -t proc proc /proc
+
+mkdir /sys
+mount -o noexec,nosuid -t sysfs sys /sys
+
+mkdir /tmp
+mount -o noexec,nosuid -t tmpfs tmp /tmp
+
+mkdir /home
+mount -o noexec,nosuid -t ramfs home /home
+
+mkdir /dev/pts
+mount -o noexec,nosuid -t devpts devpts /dev/pts
+
+dmesg -c > /dev/null
+
+mkdir /etc
+echo 'root:x:0:0::/root:/bin/sh' > /etc/passwd
+echo 'root:x:0:root' > /etc/group
+adduser -D guest
+
+if [[ -d /usr ]]; then
+	ln -s /usr/lib /lib64
+	/usr/lib/hard_flag -p
+	rm /lib64
+
+	mv /usr/lib/* /tmp
+	rmdir /usr/lib
+	rmdir /usr
+fi
+
+mount -o remount,ro / /
+
+su guest || true
+
+poweroff -f

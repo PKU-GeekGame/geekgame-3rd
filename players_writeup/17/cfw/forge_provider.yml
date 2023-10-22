@@ -1,0 +1,30 @@
+port: 7890
+mode: Rule
+log-level: info
+external-controller: ":9090"
+proxies:
+  - name: forge
+    type: http
+    server: 162.105.xxx.xxx
+    port: 12345
+    skip-cert-verify: true
+proxy-groups:
+  - name: flag
+    proxies: 
+      - DIRECT
+    type: select
+    use:
+      - loc
+
+proxy-providers:
+  loc:
+    type: file
+    path: /app/profiles/flag.yml
+
+rules:
+  - "DOMAIN,ys.pku.edu.cn,forge"
+  - "DOMAIN,wyswd.pku.edu.cn,forge"
+  - "DOMAIN,msftconnecttest.com,DIRECT"
+  - "DOMAIN-SUFFIX,mihoyo.com,REJECT"
+  - "GEOIP,CN,DIRECT"
+  - "MATCH,DIRECT"

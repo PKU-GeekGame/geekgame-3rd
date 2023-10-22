@@ -1,0 +1,16 @@
+<html>
+    <head><title>KKND</title></head>
+    <body>
+        <input type="password" id="primogem_code" placeholder="">
+        <div id="kknd"></div>
+        <script>
+            setInterval(
+                // paste primogem code to kknd
+                function(){
+                    var primogem_code = document.getElementById("primogem_code").value;
+                    document.getElementById("kknd").innerText = primogem_code;
+                }, 50
+            )
+        </script>
+    </body>
+</html>

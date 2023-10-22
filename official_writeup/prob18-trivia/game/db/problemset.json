@@ -1,0 +1,38 @@
+[
+  {
+    "id": "1",
+    "question_html": "在北京大学（校级）高性能计算平台中，什么命令可以提交一个非交互式任务？",
+    "answer_validator": "^[a-z]+$",
+    "answer": ["sbatch"]
+  },
+  {
+    "id": "2",
+    "question_html": "根据 GPL 许可证的要求，基于 Linux 二次开发的操作系统内核必须开源。例如小米公司开源了 Redmi K60 Ultra 手机的内核。其内核版本号是？",
+    "answer_validator": "^\\d+\\.\\d+\\.\\d+$",
+    "answer": ["5.15.78"]
+  },
+  {
+    "id": "3",
+    "question_html": "每款苹果产品都有一个内部的识别名称（Identifier），例如初代 iPhone 是 <code>iPhone1,1</code>。那么 Apple Watch Series 8（蜂窝版本，41mm 尺寸）是什么？",
+    "answer_validator": "^[a-zA-Z]+\\d+,\\d+$",
+    "answer": ["Watch6,16"]
+  },
+  {
+    "id": "4",
+    "question_html": "本届 PKU GeekGame 的比赛平台会禁止选手昵称中包含某些特殊字符。截止到 2023 年 10 月 1 日，共禁止了多少个字符？（提示：本题答案与 Python 版本有关，以平台实际运行情况为准）",
+    "answer_validator": "^\\d+$",
+    "answer": ["4445"]
+  },
+  {
+    "id": "5",
+    "question_html": "在 2011 年 1 月，Bilibili 游戏区下共有哪些子分区？（按网站显示顺序，以半角逗号分隔）",
+    "answer_validator": "^[A-Za-z一-龟·,]+$",
+    "answer": ["游戏视频,游戏攻略·解说,Mugen,flash游戏", "游戏视频,游戏攻略·解说,Mugen,Flash游戏"]
+  },
+  {
+    "id": "6",
+    "question_html": "<a href=/static/osint-challenge.jpg target=_blank>这个照片</a>中出现了一个大型建筑物，它的官方网站的域名是什么？（照片中部分信息已被有意遮挡，请注意检查答案格式）",
+    "answer_validator": "^[a-z0-9-]+\\.[a-z0-9]{2,3}$",
+    "answer": ["philharmonie.lu"]
+  }
+]

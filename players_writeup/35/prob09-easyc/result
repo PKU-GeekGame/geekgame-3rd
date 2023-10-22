@@ -1,0 +1,29 @@
+
+Please input your instruction:
+%s %llx %29$llx
+a_public_string deadbeef a7d797a34655f
+
+Please input your instruction:
+%s %llx %30llx
+a_public_string deadbeef                   7fffe8b12340
+
+Please input your instruction:
+%s %llx %30$llx
+a_public_string deadbeef 0
+
+Please input your instruction:
+%s %llx %28$llx
+a_public_string deadbeef 6f735f656430635f
+
+Please input your instruction:
+%s %llx %27$llx
+a_public_string deadbeef 66544e3152505f44
+
+Please input your instruction:
+%s %llx %26$llx
+a_public_string deadbeef 3465527b67616c66
+
+Please input your instruction:
+%s %llx %25$llx
+
+7d797a34655f6f735f656430635f66544e3152505f443465527b67616c66

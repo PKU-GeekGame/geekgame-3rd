@@ -1,0 +1,35 @@
+@(remainingGuesses: Int, flag:String, error: String, result:String, level:String, example:String)
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Emoji Wordle: Level @level</title>
+    </head>
+    <body>
+        @if(flag!="") {
+  <h1>Your flag: @flag</h1>
+        }
+        @if(error!="") {
+  <p>@Html(error)</p>
+        }
+        @if(remainingGuesses>0) {
+        <p>Number of guesses remaining: @remainingGuesses</p>
+        <form>Your guess: <input name=guess placeholder="@example"><input type=submit></form>
+        } else {
+        <p>Game over</p>
+        }
+        Your results:
+        <script>
+            results=JSON.parse(localStorage.getItem("results") || "[]") 
+            @if(result!=""){
+            results.push("@result")
+            localStorage.setItem("results",JSON.stringify(results))
+            }
+            document.write("<ul>")
+            for(i of results) document.write("<li>"+i+"</li>")
+            document.write("</ul>")
+        </script>
+        <hr>
+        <a href="/">Reset and return to home page</a>
+    </body>
+</html>

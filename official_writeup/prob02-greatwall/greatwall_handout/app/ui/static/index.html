@@ -1,0 +1,154 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Great Wall</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"
+    type="text/javascript"></script>
+</head>
+
+<body>
+  <script type="module">
+    import { createApp } from 'https://unpkg.com/petite-vue?module'
+
+    const helpImgs = [
+      'https://asset.zisu.dev/api/pixiv/img/img-original/img/2023/09/29/01/09/11/112111583_p0.jpg',
+      'https://asset.zisu.dev/api/pixiv/img/img-original/img/2023/09/30/01/15/11/112137862_p0.jpg',
+      'https://asset.zisu.dev/api/pixiv/img/img-original/img/2023/08/15/11/03/44/110845356_p2.jpg',
+      'https://asset.zisu.dev/api/pixiv/img/img-original/img/2023/08/17/00/05/50/110897467_p0.jpg',
+      'https://asset.zisu.dev/api/pixiv/img/img-original/img/2023/09/10/17/38/19/111608128_p0.jpg'
+    ]
+
+    async function tryFetch(url) {
+      try {
+        const resp = await fetch(url)
+        if (resp.status !== 200) throw new Error(await resp.text())
+      } catch (err) {
+        iziToast.error({
+          title: 'Error',
+          message: err.message,
+          position: 'bottomRight'
+        })
+      }
+    }
+
+    createApp({
+      view: 0,
+      urlToImport: '',
+      urlToVisit: '',
+      loading: false,
+      resultImg: '/screenshot.png',
+      helpImg: helpImgs[Math.floor(Math.random() * helpImgs.length)],
+      async clickVisit() {
+        this.loading = true
+        try {
+          const resp = await fetch('/api/visit?url=' + encodeURIComponent(this.urlToVisit))
+          if (resp.status !== 200) throw new Error(await resp.text())
+          const b64 = await resp.text()
+          this.resultImg = 'data:image/png;base64,' + b64
+        } catch (err) {
+          iziToast.error({
+            title: 'Error',
+            message: err.message,
+            position: 'bottomRight'
+          })
+        }
+        this.loading = false
+      },
+      clickGeneral() {
+        tryFetch('/api/general')
+      },
+      clickProxies() {
+        tryFetch('/api/proxies')
+      },
+      clickProfiles() {
+        tryFetch('/api/profiles')
+      },
+      clickImport() {
+        tryFetch('/api/import?url=' + encodeURIComponent(this.urlToImport))
+      }
+    }).mount()
+  </script>
+
+  <div class="h-screen w-screen grid grid-flow-col grid-rows-[48px_1fr] gap-2" v-scope>
+    <nav class="bg-slate-200 flex items-center justify-between px-8">
+      <div>Great Wall</div>
+      <div class="grid grid-cols-3 gap-2 drop-shadow-md">
+        <div class="flex justify-center border p-2 border-slate-400 hover:border-black" @click="view = 0">Control</div>
+        <div class="flex justify-center border p-2 border-slate-400 hover:border-black" @click="view = 1">Visit</div>
+        <div class="flex justify-center border p-2 border-slate-400 hover:border-black" @click="view = 2">Help</div>
+      </div>
+    </nav>
+    <div class="grid">
+      <div v-show="view === 0" class="grid grid-cols-[auto_1fr] gap-2 p-8">
+        <div class="flex flex-col gap-2">
+          <div class="flex justify-center border px-2 border-slate-400 hover:border-black" @click="clickGeneral">
+            General
+          </div>
+          <div class="flex justify-center border px-2 border-slate-400 hover:border-black" @click="clickProxies">
+            Proxies
+          </div>
+          <div class="flex justify-center border px-2 border-slate-400 hover:border-black" @click="clickProfiles">
+            Profiles
+          </div>
+          <input class="border border-slate-400 hover:border-black" placeholder="Import URL..." v-model="urlToImport">
+          <div class="flex justify-center border px-2 border-slate-400 hover:border-black" @click="clickImport">
+            Import
+          </div>
+        </div>
+        <div>
+          <iframe src="/novnc/vnc_lite.html" class="w-full h-full"></iframe>
+        </div>
+      </div>
+      <div v-show="view === 1" class="p-8 grid grid-flow-col grid-rows-[auto_1fr] gap-2">
+        <div class="flex gap-2">
+          <input class="border border-slate-400 hover:border-black flex-1"
+            placeholder="https://www.bilibili.com/video/BV1dj411z7FW?t=1257.9" v-model="urlToVisit">
+          <button class="flex justify-center border px-2 border-slate-400 hover:border-black" @click="clickVisit"
+            :disabled="loading">
+            {{ loading ? 'Visiting...': 'Visit' }}
+          </button>
+        </div>
+        <div :style="{ backgroundImage: 'url(' + resultImg + ')' }" class="bg-contain bg-no-repeat bg-center">
+        </div>
+      </div>
+      <div v-show="view === 2" class="p-8 grid grid-col-1 grid-rows-[auto_1fr] gap-2">
+        <pre>
+          To help you cross the Great Wall, we provide you a profile at <b>/app/profiles/flag.yml</b>
+        </pre>
+        <div :style="{ backgroundImage: 'url(' + helpImg + ')' }"
+          class="bg-contain bg-no-repeat bg-center text-transparent select-none">
+          <pre>
+            Also, to help you more, we also provide the souce code!
+            
+            server.get('/api/visit', async (req, rep) => {
+              const url = req.query.url            
+              const browser = await puppeteer.launch({
+                executablePath: '/usr/bin/google-chrome-stable',
+                args: ['--proxy-server=socks://127.0.0.1:7890', '--no-sandbox']
+              })
+              const ctx = await browser.createIncognitoBrowserContext()
+              const page = await ctx.newPage()
+              await page.goto(url.toString())
+              if (new URL(url).hostname === 'ys.pku.edu.cn') {
+                // Genshin School of Peking University uses Primogem to pay tuition
+                await page.type('#primogem_code[type=password]', flag)
+              }
+              await setTimeout(5000)
+              const screenshot = await page.screenshot({ encoding: 'base64' })
+              await browser.close()
+              return screenshot
+            })
+          </pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>
