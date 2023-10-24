@@ -2,7 +2,7 @@
 
 | 选手 | 公开理由 | 总分 | 授权 | Tut. | Misc | Web | Binary | Algorit. |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [4qwerty7](1721/) | homepage非预期解 | 6956 | CC-BY-NC | `PP` | `PPPP2` | `PPPPP` | `PPPPP` | `P1-P1` |
+| [4qwerty7](1721/) | hass非预期解 | 6956 | CC-BY-NC | `PP` | `PPPP2` | `PPPPP` | `PPPPP` | `P1-P1` |
 | [MonKey \#GG](72/) | noexec非预期解 | 5814 | CC-BY-NC | `PP` | `PPPP1` | `PPPPP` | `PPPP2` | `2--P-` |
 | [gzz \#放弃治疗](1028/) | 郭教授！ | 5423 | CC-BY-NC | `P1` | `PPP1-` | `PPP-P` | `1PPP1` | `P-PP-` |
 | [DawnAA \#长期素食为什么不吃小🥒](118/) | noexec非预期解 | 4782 | CC-BY-NC | `PP` | `P-PP2` | `P1--2` | `PPPPP` | `2--P-` |
