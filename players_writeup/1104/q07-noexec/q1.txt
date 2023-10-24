@@ -1,0 +1,20 @@
+$ objdump -d busybox | grep -A1 syscall | grep -B1 ret
+  4c69c7:       0f 05                   syscall
+  4c69c9:       c3                      ret
+$ lldb -- /bin/busybox echo
+
+process launch --stop-at-entry
+br s -a 0x40391f  // ret
+mem read -s8 -fx $rsp -c 20
+mem w -s8 0x7fffffffec98 0x4c69c7
+mem w -s8 0x7fffffffeca0 0x4c69c7
+reg r
+reg w rax 548
+reg w rdi 0
+reg w rsi 0x7fffffffeca8
+reg r
+reg w rax 1
+reg w rdi 1
+reg w rsi 0x7fffffffeca8
+reg w rdx 32
+reg r

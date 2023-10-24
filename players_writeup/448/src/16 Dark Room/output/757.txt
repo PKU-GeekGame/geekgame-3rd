@@ -1,0 +1,849 @@
+
+
+                        ==={[o]|[o]|[o]|[o]|[o]}===
+
+    You wake up to a slightly humid but otherwise dark room.
+    The draft coming in from the North and East indicates a narrow passageway.
+    You move around and observe your exits.
+
+The dark room smells like dust and mildew.
+
+What do you do?
+
+e: >> Walk East.
+n: /\ Go North.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+You walk into the passageway.
+
+What do you do?
+
+n: /\ Go North.
+s: \/ Move South.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+You walk into the passageway.
+
+What do you do?
+
+e: >> Walk East.
+w: << Travel West.
+s: \/ Move South.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+It smells like death and decay in here.
+Your head grows foggier the longer you stay.
+
+You quickly turn around to leave when you spot something shiny.
+           __
+          /O \_____
+          \__/-="="`
+
+It appears to be a key made of brass.
+            
+What do you do?
+
+w: << Travel West.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+You picked up the key.
+
+Your sanity has slightly increased.
+Sanity: [||||||||||||||||||--] (89%)        You have a slight headache.
+
+
+It smells like death and decay in here.
+Your head grows foggier the longer you stay.
+
+There's nothing left in this room.
+            
+What do you do?
+
+w: << Travel West.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+You walk into the passageway.
+
+What do you do?
+
+e: >> Walk East.
+w: << Travel West.
+s: \/ Move South.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+You walk into the passageway.
+
+What do you do?
+
+n: /\ Go North.
+s: \/ Move South.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+The dark room smells like dust and mildew.
+
+What do you do?
+
+e: >> Walk East.
+n: /\ Go North.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+You walk into the passageway.
+
+What do you do?
+
+e: >> Walk East.
+w: << Travel West.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+You walk into the passageway.
+
+What do you do?
+
+e: >> Walk East.
+w: << Travel West.
+s: \/ Move South.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+At the end of this hallway you spot a small item.
+Upon closer inspection, it appears to be a trinket.
+            
+What do you do?
+
+w: << Travel West.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+You feel calmer after placing but not using the trinket in your hand.
+
+Sanity: [||||||||||||||||----] (77%)        You have a slight headache.
+
+
+You stand in an empty hallway.
+            
+What do you do?
+
+w: << Travel West.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+You place the trinket around your neck and feel better protected. 
+Your sanity has increased slightly.
+Sanity: [||||||||||||||||||||] (96%)        You feel just fine.
+
+
+You stand in an empty hallway.
+            
+What do you do?
+
+w: << Travel West.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+You walk into the passageway.
+
+What do you do?
+
+e: >> Walk East.
+w: << Travel West.
+s: \/ Move South.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+A locked door stands to the South. This one has a brass handle.
+
+            __________
+           |  __  __  |
+           | |  ||  | |
+           | |  ||  | |
+           | |__||__| |
+           |  __  __ O|
+           | |  ||  | |
+           | |  ||  | |
+           | |  ||  | |
+           | |  ||  | |
+           | |__||__| |
+           |__________|
+            
+What do you do?
+
+n: /\ Go North.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+Click! The door unlocks!
+
+
+Click! The door unlocks!
+A now open door with a brass handle decorates the room.
+A passage opens to the South.
+
+What do you do?
+
+n: /\ Go North.
+s: \/ Move South.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+You walk into the passageway.
+
+What do you do?
+
+w: << Travel West.
+n: /\ Go North.
+s: \/ Move South.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+
+As you enter, a strong scent of cinnamon and pumpkin spice hits you.
+            ( (
+             ) )
+          ........
+          |      |]
+          \      /
+           `----'
+You see a gorgeous looking latte and you can't help but devour it.
+You feel better after that.
+        
+What do you do?
+
+n: /\ Go North.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+You walk into the passageway.
+
+What do you do?
+
+w: << Travel West.
+n: /\ Go North.
+s: \/ Move South.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+You walk into the passageway.
+
+What do you do?
+
+e: >> Walk East.
+w: << Travel West.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+You walk into the passageway.
+
+What do you do?
+
+e: >> Walk East.
+w: << Travel West.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+You enter a room split into 'Up' and 'Down' directions.
+A message scrawled on the wall reads:
+'One of these doors will lead to doom so be careful and pick the right room.'
+Maybe there's a hint written somewhere?
+
+What do you do?
+
+e: >> Walk East.
+n: /\ Go North.
+s: \/ Move South.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+You appear unharmed.
+
+           __
+          /@ \_____
+          \__/-="="`
+
+You notice in the corner a small key made of gold.
+        
+What do you do?
+
+s: \/ Move South.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+You picked up the key.
+
+Your sanity has slightly increased.
+
+Sanity: [||||||||||||||||||||] (101%)        You feel just fine.
+
+
+
+Without the golden key, the room looks wholly empty.
+            
+What do you do?
+
+s: \/ Move South.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+You enter a room split into 'Up' and 'Down' directions.
+A message scrawled on the wall reads:
+'One of these doors will lead to doom so be careful and pick the right room.'
+Maybe there's a hint written somewhere?
+
+What do you do?
+
+e: >> Walk East.
+n: /\ Go North.
+s: \/ Move South.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+You walk into the passageway.
+
+What do you do?
+
+e: >> Walk East.
+w: << Travel West.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+You walk into the passageway.
+
+What do you do?
+
+e: >> Walk East.
+w: << Travel West.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+You walk into the passageway.
+
+What do you do?
+
+w: << Travel West.
+n: /\ Go North.
+s: \/ Move South.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+A now open door with a brass handle decorates the room.
+A passage opens to the South.
+
+What do you do?
+
+n: /\ Go North.
+s: \/ Move South.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+You walk into the passageway.
+
+What do you do?
+
+e: >> Walk East.
+w: << Travel West.
+s: \/ Move South.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+Invalid command.
+
+You walk into the passageway.
+
+What do you do?
+
+e: >> Walk East.
+w: << Travel West.
+s: \/ Move South.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+You walk into the passageway.
+
+What do you do?
+
+e: >> Walk East.
+w: << Travel West.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+The dark room smells like dust and mildew.
+
+What do you do?
+
+e: >> Walk East.
+n: /\ Go North.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+You walk into the passageway.
+
+What do you do?
+
+n: /\ Go North.
+s: \/ Move South.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+You walk into the passageway.
+
+What do you do?
+
+e: >> Walk East.
+w: << Travel West.
+s: \/ Move South.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+You walk into the passageway.
+
+What do you do?
+
+e: >> Walk East.
+w: << Travel West.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+A locked door stands to the North. This one has a gold handle.
+
+            __________
+           |  __  __  |
+           | |  ||  | |
+           | |  ||  | |
+           | |__||__| |
+           |  __  __ @|
+           | |  ||  | |
+           | |  ||  | |
+           | |  ||  | |
+           | |  ||  | |
+           | |__||__| |
+           |__________|
+            
+What do you do?
+
+e: >> Walk East.
+s: \/ Move South.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+Click! The door unlocks!
+
+
+Click! The door unlocks!
+A now open door with a gold handle decorates the room.
+A passage opens to the North.
+
+What do you do?
+
+e: >> Walk East.
+n: /\ Go North.
+s: \/ Move South.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+You cry for help. 
+The sound of your own voice soothes you.
+You gain some sanity.
+Sanity: [||||||||||||||||||||] (99%)        You feel just fine.
+
+
+A now open door with a gold handle decorates the room.
+A passage opens to the North.
+
+What do you do?
+
+e: >> Walk East.
+n: /\ Go North.
+s: \/ Move South.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+You cry for help. 
+The sound of your own voice soothes you.
+You gain some sanity.
+Sanity: [||||||||||||||||||||] (108%)        You feel just fine.
+
+
+A now open door with a gold handle decorates the room.
+A passage opens to the North.
+
+What do you do?
+
+e: >> Walk East.
+n: /\ Go North.
+s: \/ Move South.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+You cry for help. 
+The sound of your own voice soothes you.
+You gain some sanity.
+Sanity: [||||||||||||||||||||] (117%)        You feel just fine.
+
+
+A now open door with a gold handle decorates the room.
+A passage opens to the North.
+
+What do you do?
+
+e: >> Walk East.
+n: /\ Go North.
+s: \/ Move South.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+You cry for help. 
+The sound of your own voice soothes you.
+You gain some sanity.
+Sanity: [||||||||||||||||||||] (126%)        You feel just fine.
+
+
+A now open door with a gold handle decorates the room.
+A passage opens to the North.
+
+What do you do?
+
+e: >> Walk East.
+n: /\ Go North.
+s: \/ Move South.
+i: View inventory.
+h: Help, could increase sanity with a certain probability.
+q: Check sanity.
+use: Use an item.
+usewith: Use something with something.
+pickup: Pickup something.
+
+[gamer]: 
+==========================================================================================
+
+You stumble against the wooden door.
+    You reach to turn the handle as the voices get nearer.
+
+
+                                .-''''-
+                            F   .-'
+                            F   J
+                            I    I
+                            L   `.
+                            L    `-._,
+                                `-.__.-'            @@
+                                                @@@
+                        @                      @@@@
+                _____   @@                 .---@@@@@-...__
+            .--'     `-@@@          .--..-'    @@@@@@     ''`---....
+    _____.----.        @@@`.._____ .'          @@@@@@@
+                        @@@       /       -.    @@@@@@@ _.---
+                        @@@     .(              @@@@@@@
+                        @      : `--...        @@@@@@
+                        @       `.     ``.     @@@@@@
+                                :       :.    @@@@@
+                                .'          )    @@@
+                            .'            /    @@
+                            _.'              |   .@@
+                        ,:'               |     '
+                        .'                 <
+                    '                   |
+                    /                    |
+                    '                     .
+
+    You feel the outside wind, the pale moonlight hitting your skin.
+            
+You have escaped with 125% sanity.
+You got flag1: flag{Y0u_pLAY_gAmE_vEry_WEl1}
+BTW, if you finish with 117\% or higher sanity, you can get flag1
+
+[...]: 

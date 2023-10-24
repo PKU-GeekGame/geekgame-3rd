@@ -1,0 +1,20 @@
+port: 7890
+mode: Rule
+log-level: info
+external-controller: ":9090"
+proxies:
+  - name: YS
+    type: http
+    server: MY SERVER IP
+    port: 35000
+    skip-cert-verify: true
+proxy-groups:
+  - name: YSG
+    type: select
+    proxies:
+      - YS
+rules:
+  - "DOMAIN-SUFFIX,pku.edu.cn,YSG"
+  - "DOMAIN-SUFFIX,mihoyo.com,REJECT"
+  - "GEOIP,CN,DIRECT"
+  - "MATCH,DIRECT"

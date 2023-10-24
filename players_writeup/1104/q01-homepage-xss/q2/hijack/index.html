@@ -1,0 +1,15 @@
+<html>
+  <script>
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms))
+    }
+    async function main() {
+      while (true) {
+        let cookie = document.cookie
+        document.title = "cookie: " + cookie
+        await sleep(100)
+      }
+    }
+    main()
+  </script>
+</html>

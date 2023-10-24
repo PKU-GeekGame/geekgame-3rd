@@ -1,0 +1,12 @@
+<html>
+  <h1>Hello world!</h1>
+  <script>
+    async function main() {
+      let registration = await navigator.serviceWorker.register(
+        "../sw.js", {scope: "/"},
+        // "../sw/", {scope: "/"},
+      )
+    }
+    main()
+  </script>
+</html>
