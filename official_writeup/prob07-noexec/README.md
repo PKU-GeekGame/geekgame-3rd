@@ -97,7 +97,7 @@ print(p.recvuntil(b'(lldb) '))
 
 不过需要注意的一点是，有权限打开 `/proc/[pid]/mem` 等价于当前进行对该进程有调试权限。而在 PKU GeekGame 的线上环境中，因为内核配置没有开启 `CONFIG_SECURITY_YAMA` ，所以任意两个进程只要同用户就可以互相调试，也可以互相打开 `/proc/[pid]/mem` 。这实际上是因为出题人在准备环境的时候不知道 `CONFIG_SECURITY_YAMA` 需要手动开启，因而忘记了开启（ THUCTF 线上环境无此问题，因为修复不支持长 Flag 导致 Flag 被截断问题的时候将前述问题一并修复了）。
 
-对于 `CONFIG_SECURITY_YAMA` 开启的场景，子进程不被允许父进程，所以也不能打开父进程的 `/proc/[pid]/mem` 文件：
+对于 `CONFIG_SECURITY_YAMA` 开启的场景，默认设置下，子进程调试父进程是不被允许的，所以也不能打开父进程的 `/proc/[pid]/mem` 文件：
 ```
 $ dd if=/proc/$$/mem
 dd: failed to open '/proc/228238/mem': Permission denied
