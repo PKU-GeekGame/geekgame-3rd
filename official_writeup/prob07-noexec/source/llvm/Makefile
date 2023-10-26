@@ -7,7 +7,7 @@ PATCH_FILE  := noexec.patch
 
 LLVM_TARGETS  := lldb lldb-server
 
-Q  := @
+Q  ?= @
 
 ECHO      := echo -e '\t'
 MKDIR     := mkdir
